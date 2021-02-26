@@ -1,0 +1,75 @@
+
+
+<form>
+
+    
+    <input type="hidden" id="file" name="file" value="<%= @file %>">
+    
+    <div class="test-text">
+        <p id="demo" class="demo"></p>
+        <div class="input_answer">
+        </div>
+    </div>
+
+</form>
+
+
+<script>
+
+var obj = document.getElementById("file").value;
+var json_parse = JSON.parse(obj);
+
+
+// text
+for(i=0; i < json_parse.length; i++){
+    console.log(json_parse[i].type)
+    console.log(json_parse[i].label)   
+
+    var div = document.createElement("DIV");
+    document.body.querySelector(".test-text").appendChild(div);
+    
+    var question = document.createElement("P");
+    question.innerHTML = json_parse[i].label;
+    document.body.querySelector(".demo").appendChild(question);
+
+    div.appendChild(question)
+    if(json_parse[i].type == "text"){
+        var x = document.createElement("INPUT");
+        x.setAttribute("type", json_parse[i].type);
+        document.body.querySelector(".test-text").appendChild(x);
+        div.appendChild(x)
+    }else if(json_parse[i].type == "textarea"){
+        // alert("t")
+        var x = document.createElement("TEXTAREA");
+        // x.setAttribute("type", json_parse[i].type);
+        document.body.querySelector(".test-text").appendChild(x);
+
+        div.appendChild(x)
+    }else if(json_parse[i].type == "checkbox-group"){
+        for(k=0; k < json_parse[i].values.length; k++){
+            var checkbox = document.createElement("INPUT");
+            checkbox.setAttribute("type", "checkbox");
+            var checkbox_text = document.createElement("P")
+            checkbox_text.innerHTML = json_parse[i].values[k].label
+
+            document.body.querySelector(".test-text").appendChild(checkbox);
+            div.appendChild(checkbox_text);
+            div.appendChild(checkbox);
+        }
+    }else{
+        for(k=0; k < json_parse[i].values.length; k++){
+            var radio = document.createElement("INPUT");
+            radio.setAttribute("type", "radio");
+            var radio_text = document.createElement("P")
+            radio_text.innerHTML = json_parse[i].values[k].label
+
+            document.body.querySelector(".test-text").appendChild(radio);
+             div.appendChild(radio_text);
+            div.appendChild(radio);
+        }
+    }
+    
+    
+
+}
+</script>
