@@ -6,15 +6,15 @@ class FittingController < ApplicationController
   def index
     # save
 
-    # file = File.read('Qj.json')
+    @file = File.read('QuestionVer2.json')
     # data_hash = JSON.parse(file)
     # @question = Question.new(question: data_hash, active: true, version: 6)
     # @question.save
-    # puts "file :: #{file}"
+  puts "file :: #{@file}"
 
     # @data_hash = data_hash
 
-    @file = Question.last
+    # @file = Question.last
     # data_hash = JSON.parse()
 
    
