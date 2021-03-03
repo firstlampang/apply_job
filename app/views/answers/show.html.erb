@@ -1,19 +1,7 @@
+<p><%=  %></p>
 
-<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-<form action="applyjob" method="post">
-    <div class="test-text">
-        <p id="demo" class="demo"></p>
-        
-
-        <div class="input_answer"></div>
-    </div>
-
-    <input value="submit" type="submit" />
-    
-<input type="hidden" id="question_id" name="question_id" value = "<%= @file.id %>">
-</form>
-
-<input type="hidden" id="file" name="file" value="<%= @file.question.to_json %>">
+<input type="hidden" id="file" name="file" value="<%= @all_answer.question.question %>">
+<input type="hidden" id="answer" name="answer" value="<%= @all_answer.answer %>">
 <script>
 
 var obj = document.getElementById("file").value;
@@ -27,11 +15,9 @@ for(i=0; i < json_parse.length; i++){
 
     var div = document.createElement("DIV");
     document.body.querySelector(".test-text").appendChild(div);
-
     
     var question = document.createElement("P");
     question.innerHTML = i+1 + ". " + json_parse[i].label;
-
     document.body.querySelector(".demo").appendChild(question);
 
     div.appendChild(question)
@@ -75,14 +61,6 @@ for(i=0; i < json_parse.length; i++){
         document.body.querySelector(".test-text").appendChild(x);
         div.appendChild(x)
 
-    }else if(json_parse[i].type == "date"){ 
-        var x = document.createElement("INPUT");
-        x.setAttribute("type", "date");
-        x.setAttribute("name", json_parse[i].name);
-
-        document.body.querySelector(".test-text").appendChild(x);
-
-        div.appendChild(x)
     }else{
         for(k=0; k < json_parse[i].values.length; k++){
             var radio = document.createElement("INPUT");
