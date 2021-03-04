@@ -90,7 +90,7 @@
      "label": "ปัจจุบันเรียนอยู่ชั้นปีที่? สถาบันไหน?",
      "placeholder": "ใส่คำตอบ",
      "className": "form-control",
-     "name": "question7",
+     "name":"question7",
      "access": false,
      "subtype": "text"
    },
@@ -102,7 +102,7 @@
      "label": "ช่วงเวลาที่ต้องการสมัครฝึกงาน/สหกิจศึกษา",
      "placeholder": "ใส่คำตอบ",
      "className": "form-control",
-     "name": "question8",
+     "name":"question8",
      "access": false,
      "subtype": "text"
    },
@@ -112,7 +112,7 @@
      "required": false,
      "label": "Deadline ที่ต้องการทราบผลการคัดเลือกฝึกงาน/สหกิจศึกษา เพื่อแจ้งให้คณะทราบ",
      "className": "form-control",
-     "name": "question9",
+     "name":"question9",
      "access": false
    },
 
