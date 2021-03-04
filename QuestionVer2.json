@@ -69,11 +69,13 @@
       "other":false,
       "values":[
          {
+            "ID":"rdo1",
             "label":"สมัครงาน",
             "value":"สมัครงาน",
             "selected":false
          },
          {
+            "ID":"rdo2",
             "label":"สมัครฝึกงาน/สหกิจศึกษา",
             "value":"สมัครฝึกงาน/สหกิจศึกษา",
             "selected":false
@@ -216,7 +218,7 @@
        }
      ]
    }],
-[
+   [
    {
       "ID": "question13",
       "type":"checkbox-group",
@@ -370,7 +372,7 @@
       "subtype":"textarea"
       
    }],
-   { "sectionFive" :[
+   [
    {
       "ID": "question21",
       "type":"textarea",
@@ -627,7 +629,7 @@
       "access":false,
       "subtype":"text"
       
-   }] },
+   }],
   [
    {
       "ID": "question37",

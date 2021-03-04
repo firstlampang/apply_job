@@ -1,112 +1,263 @@
 
 <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-<form action="applyjob" method="post">
-    <div class="test-text">
+<body>
+<form action="applyjob" method="post" name="applyform">
+    <div class="section1" id="section1">
         <p id="demo" class="demo"></p>
-        
+        <div class="input_answer"></div>
+    </div>
 
+    <div class="section2" id="section2" style="display:none">
+        <p id="demo" class="demo"></p>
         <div class="input_answer"></div>
     </div>
 
     <input value="submit" type="submit" />
-    <button class="prev" style="display:none" onclick="prev()">prev</button>
-    <button class="next" style="" onclick="next()">next</button>
+    <button class="prev" style="display:none" onclick="prev(applyform)">prev</button>
+    <button class="next" style="" onclick="return next()">next</button>
     
 <%# <input type="hidden" id="question_id" name="question_id" value = "<%= @file.id %>
 </form>
 
 <%# <input type="hidden" id="file" name="file" value="<%= @file.question.to_json %>
-<input type="hidden" id="file" name="file" value="<%= @file %>">
+<input type="hidden" id="file" name="file" value="<%= @file.question.to_json %>">
+</body>
 <script>
 
 var obj = document.getElementById("file").value;
 var json_parse = JSON.parse(obj);
 
-for(d=1; d < json_parse.length-1; d++){
-for(k=0; k < json_parse[d].length; k++){
-    var div = document.createElement("DIV");
-    document.body.querySelector(".test-text").appendChild(div);
-    var question = document.createElement("P");
-    question.innerHTML = k+1 + ". " + json_parse[d][k].label;
-    div.appendChild(question)
+    var a = 0;
+    var b = 0;
+    for(k=0; k < json_parse[0].length; k++){
+        a++;
+        var div = document.createElement("DIV");
+        document.body.querySelector(".section1").appendChild(div);
+        var question = document.createElement("P");
+        
+        question.innerHTML = a + ". " + json_parse[0][k].label;
+        div.appendChild(question);
+        console.log(a);
 
-    if(json_parse[d][k].type == "text"){
-        var x = document.createElement("INPUT");
-        x.setAttribute("id", json_parse[d][k].ID);
-        x.setAttribute("name", json_parse[d][k].name);
-        x.setAttribute("type", json_parse[d][k].type);
-        // x.setAttribute("required", json_parse[i].required);
-        document.body.querySelector(".test-text").appendChild(x);
-        div.appendChild(x)
-    }else if(json_parse[d][k].type == "textarea"){
-        // alert("t")
-        var x = document.createElement("TEXTAREA");
-        x.setAttribute("id", json_parse[d][k].ID);
-        x.setAttribute("name", json_parse[d][k].name);
-        // x.setAttribute("type", json_parse.type);
-        document.body.querySelector(".test-text").appendChild(x);
+        if(json_parse[0][k].type == "text"){
+            var x = document.createElement("INPUT");
+            x.setAttribute("id", json_parse[0][k].ID);
+            x.setAttribute("name", json_parse[0][k].name);
+            x.setAttribute("type", json_parse[0][k].type);
+            // x.setAttribute("required", json_parse[i].required);
+            document.body.querySelector(".section2").appendChild(x);
+            div.appendChild(x)
+        }else if(json_parse[0][k].type == "textarea"){
+            // alert("t")
+            var x = document.createElement("TEXTAREA");
+            x.setAttribute("id", json_parse[0][k].ID);
+            x.setAttribute("name", json_parse[0][k].name);
+            // x.setAttribute("type", json_parse.type);
+            document.body.querySelector(".section1").appendChild(x);
 
-        div.appendChild(x)
-    }else if(json_parse[d][k].type == "checkbox-group"){
-        for(c=0; c < json_parse[d][k].values.length; c++){
-            var checkbox = document.createElement("INPUT");
-            checkbox.setAttribute("id", json_parse[d][k].ID);
-            checkbox.setAttribute("name", json_parse[d][k].name);
-            checkbox.setAttribute("type", "checkbox");
-            checkbox.setAttribute("value", json_parse[d][k].values[c].value);
-            var checkbox_text = document.createElement("P")
-            checkbox_text.innerHTML = json_parse[d][k].values[c].label
+            div.appendChild(x)
+        }else{
+            for(j=0; j < json_parse[0][k].values.length; j++){
+                var radio = document.createElement("INPUT");
+                radio.setAttribute("id", json_parse[0][k].values[j].ID);
+                radio.setAttribute("name", json_parse[0][k].name);
+                radio.setAttribute("type", "radio");
+                radio.setAttribute("value", json_parse[0][k].values[j].value);
+                
+                var radio_text = document.createElement("P")
+                radio_text.innerHTML = json_parse[0][k].values[j].label
 
-            document.body.querySelector(".test-text").appendChild(checkbox);
-            div.appendChild(checkbox_text);
-            div.appendChild(checkbox);
-        }
-    }else if(json_parse[d][k].type == "button"){
-        var x = document.createElement("BUTTON");
-        x.setAttribute("id", json_parse[d][k].ID);
-        x.setAttribute("name", json_parse[d][k].name);
-        x.setAttribute("type", json_parse[d][k].subtype);
-        x.innerHTML = json_parse[d][k].subtype;
-        document.body.querySelector(".test-text").appendChild(x);
-        div.appendChild(x)
+                var p = document.getElementById("demo");
+                p.remove;
 
-    }else if(json_parse[d][k].type == "date"){ 
-        var x = document.createElement("INPUT");
-        x.setAttribute("type", "date");
-        x.setAttribute("name", json_parse[d][k].name);
-
-        document.body.querySelector(".test-text").appendChild(x);
-
-        div.appendChild(x)
-    }else{
-        for(j=0; j < json_parse[d][k].values.length; j++){
-            var radio = document.createElement("INPUT");
-            radio.setAttribute("name", json_parse[d][k].name);
-            radio.setAttribute("type", "radio");
-            radio.setAttribute("value", json_parse[d][k].values[j].value);
-            
-            var radio_text = document.createElement("P")
-            radio_text.innerHTML = json_parse[d][k].values[j].label
-
-            var p = document.getElementById("demo");
-            p.remove;
-
-            document.body.querySelector(".test-text").appendChild(radio);
-            
-            div.appendChild(radio_text);
-            div.appendChild(radio);
+                document.body.querySelector(".section1").appendChild(radio);
+                
+                div.appendChild(radio_text);
+                div.appendChild(radio);
+            }
         }
     }
-}
-}
 
+
+function next() {
+    document.getElementById("section1").style.display = "none";
+    document.getElementById("section2").style.display = "block";
+    if(document.getElementById("rdo2").checked){
+        for(d = 1; d < json_parse.length; d++){
+            if(d != 2){
+                for(k = 0; k < json_parse[d].length; k++){
+                    a++;
+                    var div = document.createElement("DIV");
+                    document.body.querySelector(".section2").appendChild(div);
+                    var question = document.createElement("P");
+                    
+                    question.innerHTML = a + ". " + json_parse[d][k].label;
+                    div.appendChild(question);
+                    console.log(a);
+
+                    if(json_parse[d][k].type == "text"){
+                        var x = document.createElement("INPUT");
+                        x.setAttribute("id", json_parse[d][k].ID);
+                        x.setAttribute("name", json_parse[d][k].name);
+                        x.setAttribute("type", json_parse[d][k].type);
+                        document.body.querySelector(".section2").appendChild(x);
+                        div.appendChild(x)
+                    }else if(json_parse[d][k].type == "textarea"){
+                        // alert("t")
+                        var x = document.createElement("TEXTAREA");
+                        x.setAttribute("id", json_parse[d][k].ID);
+                        x.setAttribute("name", json_parse[d][k].name);
+                        // x.setAttribute("type", json_parse.type);
+                        document.body.querySelector(".section2").appendChild(x);
+
+                        div.appendChild(x)
+                    }else if(json_parse[d][k].type == "checkbox-group"){
+                        for(c=0; c < json_parse[d][k].values.length; c++){
+                            var checkbox = document.createElement("INPUT");
+                            checkbox.setAttribute("id", json_parse[d][k].ID);
+                            checkbox.setAttribute("name", json_parse[d][k].name);
+                            checkbox.setAttribute("type", "checkbox");
+                            checkbox.setAttribute("value", json_parse[d][k].values[c].value);
+                            var checkbox_text = document.createElement("P")
+                            checkbox_text.innerHTML = json_parse[d][k].values[c].label
+
+                            document.body.querySelector(".section2").appendChild(checkbox);
+                            div.appendChild(checkbox_text);
+                            div.appendChild(checkbox);
+                        }
+                    }else if(json_parse[d][k].type == "button"){
+                        var x = document.createElement("BUTTON");
+                        x.setAttribute("id", json_parse[d][k].ID);
+                        x.setAttribute("name", json_parse[d][k].name);
+                        x.setAttribute("type", json_parse[d][k].subtype);
+                        x.innerHTML = json_parse[d][k].subtype;
+                        document.body.querySelector(".section2").appendChild(x);
+                        div.appendChild(x)
+
+                    }else if(json_parse[d][k].type == "date"){ 
+                        var x = document.createElement("INPUT");
+                        x.setAttribute("type", "date");
+                        x.setAttribute("name", json_parse[d][k].name);
+
+                        document.body.querySelector(".section2").appendChild(x);
+
+                        div.appendChild(x)
+                    }else{
+                        for(j=0; j < json_parse[d][k].values.length; j++){
+                            var radio = document.createElement("INPUT");
+                            radio.setAttribute("id", json_parse[d][k].values[j].ID);
+                            radio.setAttribute("name", json_parse[d][k].name);
+                            radio.setAttribute("type", "radio");
+                            radio.setAttribute("value", json_parse[d][k].values[j].value);
+                            
+                            var radio_text = document.createElement("P")
+                            radio_text.innerHTML = json_parse[d][k].values[j].label
+
+                            var p = document.getElementById("demo");
+                            p.remove;
+
+                            document.body.querySelector(".section2").appendChild(radio);
+                            
+                            div.appendChild(radio_text);
+                            div.appendChild(radio);
+                        }
+                    }
+                }
+            }
+        }
+    }else{
+        for(d = 2; d < json_parse.length; d++){
+            for(k = 0; k < json_parse[d].length; k++){
+                a++;
+                var div = document.createElement("DIV");
+                document.body.querySelector(".section2").appendChild(div);
+                var question = document.createElement("P");
+                
+                question.innerHTML = a + ". " + json_parse[d][k].label;
+                div.appendChild(question);
+                console.log(a);
+
+                if(json_parse[d][k].type == "text"){
+                    var x = document.createElement("INPUT");
+                    x.setAttribute("id", json_parse[d][k].ID);
+                    x.setAttribute("name", json_parse[d][k].name);
+                    x.setAttribute("type", json_parse[d][k].type);
+                    // x.setAttribute("required", json_parse[i].required);
+                    document.body.querySelector(".section2").appendChild(x);
+                    div.appendChild(x)
+                }else if(json_parse[d][k].type == "textarea"){
+                    // alert("t")
+                    var x = document.createElement("TEXTAREA");
+                    x.setAttribute("id", json_parse[d][k].ID);
+                    x.setAttribute("name", json_parse[d][k].name);
+                    // x.setAttribute("type", json_parse.type);
+                    document.body.querySelector(".section2").appendChild(x);
+
+                    div.appendChild(x)
+                }else if(json_parse[d][k].type == "checkbox-group"){
+                    for(c=0; c < json_parse[d][k].values.length; c++){
+                        var checkbox = document.createElement("INPUT");
+                        checkbox.setAttribute("id", json_parse[d][k].ID);
+                        checkbox.setAttribute("name", json_parse[d][k].name);
+                        checkbox.setAttribute("type", "checkbox");
+                        checkbox.setAttribute("value", json_parse[d][k].values[c].value);
+                        var checkbox_text = document.createElement("P")
+                        checkbox_text.innerHTML = json_parse[d][k].values[c].label
+
+                        document.body.querySelector(".section2").appendChild(checkbox);
+                        div.appendChild(checkbox_text);
+                        div.appendChild(checkbox);
+                    }
+                }else if(json_parse[d][k].type == "button"){
+                    var x = document.createElement("BUTTON");
+                    x.setAttribute("id", json_parse[d][k].ID);
+                    x.setAttribute("name", json_parse[d][k].name);
+                    x.setAttribute("type", json_parse[d][k].subtype);
+                    x.innerHTML = json_parse[d][k].subtype;
+                    document.body.querySelector(".section2").appendChild(x);
+                    div.appendChild(x)
+
+                }else if(json_parse[d][k].type == "date"){ 
+                    var x = document.createElement("INPUT");
+                    x.setAttribute("type", "date");
+                    x.setAttribute("name", json_parse[d][k].name);
+
+                    document.body.querySelector(".section2").appendChild(x);
+
+                    div.appendChild(x)
+                }else{
+                    for(j=0; j < json_parse[d][k].values.length; j++){
+                        var radio = document.createElement("INPUT");
+                        radio.setAttribute("id", json_parse[d][k].values[j].ID);
+                        radio.setAttribute("name", json_parse[d][k].name);
+                        radio.setAttribute("type", "radio");
+                        radio.setAttribute("value", json_parse[d][k].values[j].value);
+                        
+                        var radio_text = document.createElement("P")
+                        radio_text.innerHTML = json_parse[d][k].values[j].label
+
+                        var p = document.getElementById("demo");
+                        p.remove;
+
+                        document.body.querySelector(".section2").appendChild(radio);
+                        
+                        div.appendChild(radio_text);
+                        div.appendChild(radio);
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+}
 // text
 // for(i=0; i < json_parse.length; i++){
 //     console.log(json_parse[i].type)
 //     console.log(json_parse[i].label)   
 
 //     var div = document.createElement("DIV");
-//     document.body.querySelector(".test-text").appendChild(div);
+//     document.body.querySelector(".section2").appendChild(div);
 
     
 //     var question = document.createElement("P");
@@ -121,7 +272,7 @@ for(k=0; k < json_parse[d].length; k++){
 //         x.setAttribute("name", json_parse[i].name);
 //         x.setAttribute("type", json_parse[i].type);
 //         // x.setAttribute("required", json_parse[i].required);
-//         document.body.querySelector(".test-text").appendChild(x);
+//         document.body.querySelector(".section2").appendChild(x);
 //         div.appendChild(x)
 //     }else if(json_parse[i].type == "textarea"){
 //         // alert("t")
@@ -129,7 +280,7 @@ for(k=0; k < json_parse[d].length; k++){
 //         x.setAttribute("id", json_parse[i].ID);
 //         x.setAttribute("name", json_parse[i].name);
 //         // x.setAttribute("type", json_parse[i].type);
-//         document.body.querySelector(".test-text").appendChild(x);
+//         document.body.querySelector(".section2").appendChild(x);
 
 //         div.appendChild(x)
 //     }else if(json_parse[i].type == "checkbox-group"){
@@ -142,7 +293,7 @@ for(k=0; k < json_parse[d].length; k++){
 //             var checkbox_text = document.createElement("P")
 //             checkbox_text.innerHTML = json_parse[i].values[k].label
 
-//             document.body.querySelector(".test-text").appendChild(checkbox);
+//             document.body.querySelector(".section2").appendChild(checkbox);
 //             div.appendChild(checkbox_text);
 //             div.appendChild(checkbox);
 //         }
@@ -152,7 +303,7 @@ for(k=0; k < json_parse[d].length; k++){
 //         x.setAttribute("name", json_parse[i].name);
 //         x.setAttribute("type", json_parse[i].subtype);
 //         x.innerHTML = json_parse[i].subtype;
-//         document.body.querySelector(".test-text").appendChild(x);
+//         document.body.querySelector(".section2").appendChild(x);
 //         div.appendChild(x)
 
 //     }else if(json_parse[i].type == "date"){ 
@@ -160,7 +311,7 @@ for(k=0; k < json_parse[d].length; k++){
 //         x.setAttribute("type", "date");
 //         x.setAttribute("name", json_parse[i].name);
 
-//         document.body.querySelector(".test-text").appendChild(x);
+//         document.body.querySelector(".section2").appendChild(x);
 
 //         div.appendChild(x)
 //     }else{
@@ -186,7 +337,7 @@ for(k=0; k < json_parse[d].length; k++){
 //             var p = document.getElementById("demo");
 //             p.remove;
 
-//             document.body.querySelector(".test-text").appendChild(radio);
+//             document.body.querySelector(".section2").appendChild(radio);
             
 //             div.appendChild(radio_text);
 //             div.appendChild(radio);
